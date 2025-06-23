@@ -3,13 +3,26 @@ var gamepattern = [];
 var userclickedpattern = [];
 var level = 1;
 var started = false;
-$(document).on("keydown",function(){
-    if(!started){
-        $("#level-title").text("Level " + level);
-        nextSequence();
-        started = true;
-    }
+
+$(document).on("keydown", function () {
+  if (!started) {
+    startGame();
+  }
 });
+
+$("#start-btn").on("click", function () {
+  if (!started) {
+    startGame();
+  }
+});
+
+function startGame() {
+  $("#level-title").text("Level " + level);
+  $("#start-btn").prop("disabled", true); 
+  nextSequence();
+  started = true;
+}
+
 function nextSequence(){
     var randomnumber = Math.floor(4*Math.random());
     var randomcolor = buttoncolors[randomnumber]
@@ -22,6 +35,9 @@ function nextSequence(){
     $("#level-title").text("Level "+level);
     level++;
 }
+
+
+
 $(".btn").on("click",function(){
     var clickedcolor = $(this).attr("id");
     playsound(clickedcolor);
@@ -33,6 +49,7 @@ $(".btn").on("click",function(){
     animatePress(clickedcolor);
     checkAnswer(userclickedpattern.length-1);
 });
+
 function checkAnswer(i){
     if(userclickedpattern[i]===gamepattern[i]){
         console.log("success");
@@ -47,17 +64,20 @@ function checkAnswer(i){
         setTimeout(function(){
             $("body").removeClass("game-over");
         },100);
-        $("#level-title").text("Press A Key to Start");
+        $("#level-title").text("Press Any Key to Start");
         started = false;
         gamepattern = [];
         userclickedpattern = [];
-        console.log("fail");
+
+        $("#start-btn").prop("disabled", false);
     }
 }
+
 function playsound(randomcolor){
     var audio = new Audio("./sounds/"+randomcolor+".mp3");
     audio.play();
 }
+
 function animatePress(randomcolor){
     $("#"+randomcolor).addClass("pressed");
     setTimeout(function(){

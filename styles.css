@@ -6,24 +6,50 @@ body {
 #level-title {
   font-family: 'Press Start 2P', cursive;
   font-size: 3rem;
-  margin:  5%;
+  margin-bottom: 5%;
   color: #FEF2BF;
 }
 
 .container {
-  display: block;
-  width: 50%;
-  margin: auto;
-
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 600px;
 }
 
 .btn {
-  margin: 25px;
   display: inline-block;
-  height: 200px;
-  width: 200px;
+  height: 185px;
+  width: 185px;
   border: 10px solid black;
   border-radius: 20%;
+}
+
+#start-btn {
+  position: absolute;
+  top: 85%;
+  right: 20px;
+  z-index: 1000;
+
+  font-size: 0.8rem;
+  padding: 15px 30px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: white;
+  color: #011F3F;
+  cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
+}
+
+#start-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }
 
 .game-over {
@@ -32,22 +58,98 @@ body {
 }
 
 .red {
+  grid-area: 1/2/2/-1;
   background-color: red;
 }
 
 .green {
+  grid-area: 1/1/2/2;
   background-color: green;
 }
 
 .blue {
+  grid-area: 2/2/-1/-1;
   background-color: blue;
 }
 
 .yellow {
+  grid-area: 2/1/-1/2;
   background-color: yellow;
 }
 
 .pressed {
   box-shadow: 0 0 20px white;
   background-color: grey;
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 1024px) {
+  #level-title {
+    font-size: 2.5rem;
+  }
+
+  .btn {
+    height: 160px;
+    width: 160px;
+    border: 8px solid black;
+  }
+
+  .container {
+    max-width: 500px;
+  }
+
+  #start-btn {
+    font-size: 0.75rem;
+    padding: 12px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  #level-title {
+    font-size: 2rem;
+  }
+
+  .btn {
+    height: 130px;
+    width: 130px;
+    border: 6px solid black;
+  }
+
+  .container {
+    max-width: 350px;
+    gap: 30px;
+  }
+
+  #start-btn {
+    font-size: 0.7rem;
+    padding: 10px 20px;
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  #level-title {
+    font-size: 1.4rem;
+    margin-bottom: 30%;
+  }
+
+  .btn {
+    height: 100px;
+    width: 100px;
+    border: 4px solid black;
+  }
+
+  .container {
+    max-width: 260px;
+    gap: 20px;
+  }
+
+  #start-btn {
+    font-size: 0.65rem;
+    padding: 8px 16px;
+    bottom: 15px;
+    right: 15px;
+  }
 }
