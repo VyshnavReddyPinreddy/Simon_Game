@@ -4,12 +4,28 @@ var userclickedpattern = [];
 var level = 1;
 var started = false;
 
+// Preload and cache sounds
+const sounds = {
+  red: new Audio("./sounds/red.mp3"),
+  blue: new Audio("./sounds/blue.mp3"),
+  green: new Audio("./sounds/green.mp3"),
+  yellow: new Audio("./sounds/yellow.mp3"),
+  wrong: new Audio("./sounds/wrong.mp3")
+};
+
+// Optional: force preload
+for (let key in sounds) {
+  sounds[key].load();
+}
+
+// Start game on any key
 $(document).on("keydown", function () {
   if (!started) {
     startGame();
   }
 });
 
+// Or by button
 $("#start-btn").on("click", function () {
   if (!started) {
     startGame();
@@ -18,71 +34,70 @@ $("#start-btn").on("click", function () {
 
 function startGame() {
   $("#level-title").text("Level " + level);
-  $("#start-btn").prop("disabled", true); 
+  $("#start-btn").prop("disabled", true);
   nextSequence();
   started = true;
 }
 
-function nextSequence(){
-    var randomnumber = Math.floor(4*Math.random());
-    var randomcolor = buttoncolors[randomnumber]
-    gamepattern.push(randomcolor);
-    
-    $("#"+randomcolor).fadeIn(100).fadeOut(100).fadeIn(100);
-    animatePress(randomcolor);
-    playsound(randomcolor);
-    
-    $("#level-title").text("Level "+level);
-    level++;
+function nextSequence() {
+  var randomnumber = Math.floor(4 * Math.random());
+  var randomcolor = buttoncolors[randomnumber];
+  gamepattern.push(randomcolor);
+
+  $("#" + randomcolor).fadeIn(100).fadeOut(100).fadeIn(100);
+  animatePress(randomcolor);
+  playSound(randomcolor);
+
+  $("#level-title").text("Level " + level);
+  level++;
 }
 
+$(".btn").on("click", function () {
+  var clickedcolor = $(this).attr("id");
+  playSound(clickedcolor);
+  userclickedpattern.push(clickedcolor);
 
-
-$(".btn").on("click",function(){
-    var clickedcolor = $(this).attr("id");
-    playsound(clickedcolor);
-    userclickedpattern.push(clickedcolor);
-
-    console.log(gamepattern);
-    console.log(userclickedpattern);
-
-    animatePress(clickedcolor);
-    checkAnswer(userclickedpattern.length-1);
+  animatePress(clickedcolor);
+  checkAnswer(userclickedpattern.length - 1);
 });
 
-function checkAnswer(i){
-    if(userclickedpattern[i]===gamepattern[i]){
-        console.log("success");
-        if(i===gamepattern.length-1){
-            userclickedpattern = [];
-            setTimeout(function (){nextSequence();},500);
-        }
-    }else{
-        level=1;
-        playsound("wrong");
-        $("body").addClass("game-over");
-        setTimeout(function(){
-            $("body").removeClass("game-over");
-        },100);
-        $("#level-title").text("Press Any Key to Start");
-        started = false;
-        gamepattern = [];
-        userclickedpattern = [];
-
-        $("#start-btn").prop("disabled", false);
+function checkAnswer(i) {
+  if (userclickedpattern[i] === gamepattern[i]) {
+    if (i === gamepattern.length - 1) {
+      userclickedpattern = [];
+      setTimeout(function () {
+        nextSequence();
+      }, 500);
     }
+  } else {
+    level = 1;
+    playSound("wrong");
+    $("body").addClass("game-over");
+    setTimeout(function () {
+      $("body").removeClass("game-over");
+    }, 100);
+    $("#level-title").text("Press Any Key or below Button to Start");
+    started = false;
+    gamepattern = [];
+    userclickedpattern = [];
+    $("#start-btn").prop("disabled", false);
+  }
 }
 
-function playsound(randomcolor){
-    var audio = new Audio("./sounds/"+randomcolor+".mp3");
-    audio.play();
+function playSound(color) {
+  if (sounds[color]) {
+    try {
+      const soundClone = sounds[color].cloneNode(); // allow simultaneous sounds
+      soundClone.play();
+    } catch (e) {
+      console.warn("Audio play failed for:", color, e);
+    }
+  }
 }
 
-function animatePress(randomcolor){
-    $("#"+randomcolor).addClass("pressed");
-    setTimeout(function(){
-        $("#"+randomcolor).removeClass("pressed");
-    },100);
+function animatePress(color) {
+  $("#" + color).addClass("pressed");
+  setTimeout(function () {
+    $("#" + color).removeClass("pressed");
+  }, 100);
 }
-
-
