@@ -17,6 +17,7 @@
   </head>
 
   <body>
+    
     <div class="game-wrapper">
       <h1 id="level-title">Press Any Key or below Button to Start</h1>
       <button id="start-btn">Start Game</button>
@@ -26,6 +27,18 @@
         <div type="button" id="yellow" class="btn yellow"></div>
         <div type="button" id="blue" class="btn blue"></div>
       </div>
+    </div>
+    <button id="help-btn">?</button>
+
+    <div id="help-box">
+      <h2>How to Play ?</h2>
+      <ol>
+        <li>Press any key or the <strong>Start Game</strong> button to begin.</li>
+        <li>The system flashes one color. Click that color.</li>
+        <li>The system adds one new color each level. Repeat the full sequence in order.</li>
+        <li>Each round adds a new color to the end — remember the full sequence!</li>
+        <li>The level increases with every correct sequence.</li>
+      </ol>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="index.js"></script>

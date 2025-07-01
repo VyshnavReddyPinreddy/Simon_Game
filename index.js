@@ -4,7 +4,6 @@ var userclickedpattern = [];
 var level = 1;
 var started = false;
 
-// Preload and cache sounds
 const sounds = {
   red: new Audio("./sounds/red.mp3"),
   blue: new Audio("./sounds/blue.mp3"),
@@ -13,19 +12,16 @@ const sounds = {
   wrong: new Audio("./sounds/wrong.mp3")
 };
 
-// Optional: force preload
 for (let key in sounds) {
   sounds[key].load();
 }
 
-// Start game on any key
 $(document).on("keydown", function () {
   if (!started) {
     startGame();
   }
 });
 
-// Or by button
 $("#start-btn").on("click", function () {
   if (!started) {
     startGame();
@@ -87,7 +83,7 @@ function checkAnswer(i) {
 function playSound(color) {
   if (sounds[color]) {
     try {
-      const soundClone = sounds[color].cloneNode(); // allow simultaneous sounds
+      const soundClone = sounds[color].cloneNode(); 
       soundClone.play();
     } catch (e) {
       console.warn("Audio play failed for:", color, e);
@@ -101,3 +97,8 @@ function animatePress(color) {
     $("#" + color).removeClass("pressed");
   }, 100);
 }
+
+$("#help-btn").on("click", function () {
+  $("#help-box").fadeToggle(200);
+});
+
